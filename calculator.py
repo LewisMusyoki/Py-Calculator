@@ -54,8 +54,62 @@ Button(root,font=('futura', 15, 'bold'),
        height=2, width=9).grid(row = 7 , column = 3, sticky = E)
 
 
+answerVariableGlobal = ""
+answerLabelForSquareRoot = ""
 
-
+def changeAnswerEntryLabel(entry):
+    global answerVariableGlobal
+    global answerLabelForSquareRoot
+    
+    answerVariableGlobal = answerVariableGlobal + str(entry)
+    answerLabelForSquareRoot = answerVariableGlobal
+    answerEntryLabel.set(answerVariableGlobal)
+    
+def allClear():
+    global answerVariableGlobal
+    global answerLabelForSquareRoot
+    answerVariableGlobal = ""
+    answerLabelForSquareRoot = ""
+    answerEntryLabel.set("")
+    answerFinalLabel.set("")
+    
+def clearAnswerEntryLabel():
+    global answerVariableGlobal
+    global answerLabelForSquareRoot
+    answerLabelForSquareRoot = answerVariableGlobal
+    answerVariableGlobal = ""
+    answerEntryLabel.set(answerVariableGlobal)
+    
+def evaluateAnswer():
+    global answerVariableGlobal
+    try:
+       eval(answerVariableGlobal)
+       evaluatedValueAnswerLabelGlobal= str(eval(answerVariableGlobal) )   # This line should be alligned                 properly without any indentation error
+       clearAnswerEntryLabel()
+       answerFinalLabel.set(evaluatedValueAnswerLabelGlobal)
+#Here we are handling the error when the expression has some SyntaxError or for that matter any Error.
+    except(ValueError,SyntaxError,TypeError, ZeroDivisionError):
+        clearAnswerEntryLabel()
+        answerFinalLabel.set("Error!")
+        
+        
+def evaluateSquareRoot():
+    global answerVariableGlobal
+    global answerLabelForSquareRoot
+    try:
+        sqrtAnswer = math.sqrt(eval(str(answerLabelForSquareRoot)))
+        clearAnswerEntryLabel()
+        answerFinalLabel.set(sqrtAnswer)
+    except(ValueError,SyntaxError,TypeError, ZeroDivisionError):
+        try:
+            sqrtAnswer = math.sqrt(eval(str(answerVariableGlobal)))
+            clearAnswerEntryLabel()
+            answerFinalLabel.set(sqrtAnswer)
+#Error Handling  
+        except(ValueError,SyntaxError,
+               TypeError,ZeroDivisionError):
+            clearAnswerEntryLabel()
+            answerFinalLabel.set("Error!")                
         
 
 root.mainloop()
